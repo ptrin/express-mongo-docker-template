@@ -9,11 +9,16 @@ services:
       - "3002:3002"
     environment:
       - PORT=3002
-    command: node server.js
+    command: ["sh", "-c", "npm install && npm run dev"]
     links:
       - mongo
     depends_on:
       - mongo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongo:
     image: mongo
@@ -38,6 +43,7 @@ services:
       - REACT_APP_API_URL=http://127.0.0.1:3002/
     volumes:
     - ./my-app:/app  # Mount the local directory to the container
-    command: npm start
+    command: ["sh", "-c", "npm install && npm start"]
     depends_on:
-      - api
+      api:
+        condition: service_healthy
