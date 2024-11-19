@@ -3,7 +3,5 @@
     "MONGO_USER": "mongouser",
     "MONGO_PASSWORD": "mongouserpassword",
     "PORT": 3002
-  },
-  "forwardPorts": [3000, 3002],
-  "postAttachCommand": "gh codespace ports visibility 3000:public 3002:public -c $CODESPACE_NAME"
+  }
 }
